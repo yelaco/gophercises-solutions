@@ -1,3 +1,1 @@
-# Gophercises
-
-Gophercises solutions
+# Gophercises Solutions
