@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+</head>
+    <body>
+        <h1>{{ .Title }}</h1>
+        {{range .Story}}
+        <p>{{.}}</p>
+        {{end}}
+        <br>
+        {{if .Options}}
+            <h4>Your decision</h4>
+            {{range .Options}}
+            <p><a style="color: black;" href="/adventure?arc={{.Arc}}">{{.Text}}</a></p>
+            {{end}}
+        {{else}}
+            <h3 style="color: blue;">End of story</h4>
+            </br>
+            <p><a style="color: black;" href="/adventure?arc=intro">Replay</a></p>
+        {{end}}
+    </body>
+</html>
