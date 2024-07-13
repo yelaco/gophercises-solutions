@@ -33,7 +33,7 @@ func extractLinks(n *html.Node) []Link {
 			}
 		}
 
-		link.Text = extractText(n)
+		link.Text = strings.TrimSpace(extractText(n))
 
 		links = append(links, link)
 	}
@@ -46,5 +46,13 @@ func extractLinks(n *html.Node) []Link {
 }
 
 func extractText(n *html.Node) string {
-	return ""
+	text := ""
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		if c.Type == html.TextNode {
+			text += strings.TrimSpace(c.Data) + " "
+		} else {
+			text += extractText(c)
+		}
+	}
+	return text
 }
