@@ -27,9 +27,6 @@ func BuildSitemap(url string) string {
 
 	// Using BFS to crawl the sites
 	for len(urlQueue) > 0 {
-		if len(siteMap) > 5 {
-			break
-		}
 		links, _ := crawlLinks(urlQueue[0])
 
 		for _, link := range links {
