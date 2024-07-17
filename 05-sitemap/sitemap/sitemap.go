@@ -52,13 +52,16 @@ func sameDomain(url, href string) (string, bool) {
 	if href == "" {
 		return "", true
 	}
-	if strings.Contains(href, url) {
-		return href, true
-	} else if href[0] == '/' {
-		return url + href, true
-	} else {
-		return "", false
+
+	if href[0] == '/' {
+		return strings.TrimRight(url+href, "/"), true
 	}
+
+	if strings.HasPrefix(href, url) {
+		return strings.TrimRight(href, "/"), true
+	}
+
+	return "", false
 }
 
 func crawlLinks(url string) ([]parser.Link, error) {
