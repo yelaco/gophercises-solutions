@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/yelaco/sitemap/sitemap"
 )
@@ -11,5 +12,5 @@ func main() {
 	flag.StringVar(&url, "url", "https://monstar-lab.com/vn/", "URL to build a sitemap from")
 	flag.Parse()
 
-	sitemap.BuildSitemap(url)
+	fmt.Println(sitemap.BuildSitemap(url))
 }

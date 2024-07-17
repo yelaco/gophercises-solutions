@@ -1,6 +1,7 @@
 package sitemap
 
 import (
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
@@ -15,7 +16,9 @@ type Url struct {
 }
 
 type UrlSet struct {
-	URLs []Url `xml:"urlset"`
+	XMLName xml.Name `xml:"urlset"`
+	Xmln    string   `xml:"xmln,attr"`
+	Urls    []Url    `xml:"url"`
 }
 
 func BuildSitemap(url string) string {
@@ -24,6 +27,9 @@ func BuildSitemap(url string) string {
 
 	// Using BFS to crawl the sites
 	for len(urlQueue) > 0 {
+		if len(siteMap) > 5 {
+			break
+		}
 		links, _ := crawlLinks(urlQueue[0])
 
 		for _, link := range links {
@@ -83,5 +89,19 @@ func crawlLinks(url string) ([]parser.Link, error) {
 }
 
 func sitemapToXML(sm map[string]struct{}) string {
-	return ""
+	urls := []Url{}
+	for url := range sm {
+		urls = append(urls, Url{
+			Loc: url,
+		})
+	}
+
+	urlSet := &UrlSet{
+		Xmln: "http://www.sitemap.org/schemas/sitemap/0.9",
+		Urls: urls,
+	}
+
+	out, _ := xml.MarshalIndent(urlSet, " ", " ")
+
+	return xml.Header + string(out)
 }
